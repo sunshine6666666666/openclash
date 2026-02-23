@@ -1,0 +1,38 @@
+---
+description: Cudy TR3000 硬件规格与性能边界规则
+globs: 
+alwaysApply: true
+---
+
+# Cudy TR3000 硬件性能与部署红线
+
+本规则记录了当前设备的真实硬件参数与性能边界，用于指导软件安装、插件配置及系统优化建议。
+
+## 1. 核心硬件规格 (Hardware Specs)
+- **型号**: Cudy TR3000 (AX3000)
+- **架构**: ARMv8 Processor rev 4 (aarch64, 64-bit)
+- **CPU**: 双核 MediaTek Filogic 820
+- **内存 (RAM)**: 512MB (可用约 200MB+)
+- **闪存 (Flash)**: 256MB (Overlay 剩余空间约 160MB+)
+- **系统**: ImmortalWrt 24.10.4 (Kernel 6.6.110)
+
+## 2. 性能边界 (Performance Boundaries)
+
+### ✅ 推荐部署 (适合)
+- **网络插件**: OpenClash (Meta 内核), AdGuard Home, PassWall, SSR Plus+。
+- **轻量服务**: 动态 DNS (DDNS), 网络唤醒 (WOL), 基础防火墙规则。
+- **流量上限**: 能够轻松处理 500M-1000M 级别的科学上网加解密流量。
+
+### ⚠️ 谨慎部署 (有风险)
+- **Docker**: 仅限极轻量容器（如签到脚本），严禁运行内存占用 >100MB 的镜像。
+- **离线下载**: 频繁的 IO 写入会缩短内置闪存寿命，建议挂载外部硬盘。
+
+### ❌ 禁止部署 (绝对不适合)
+- **现代 AI Agent**: 如 `opencode`, `openclaw` 等 Node.js 重型应用（内存和存储均不足）。
+- **浏览器环境**: 如 Headless Chrome/Chromium（单进程即可撑爆内存）。
+- **编译任务**: 严禁在宿主机直接进行大规模源码编译。
+
+## 3. 决策原则 (Decision Principles)
+1. **稳定性优先**: 当功能与稳定性冲突时，优先保证路由器的网络转发本职工作。
+2. **内外分离**: 所有的重型计算（AI、代码解析、大型数据库）必须放在 Mac 宿主机上，路由器仅作为“高速透明网关”。
+3. **空间预警**: 保持 Overlay 剩余空间不少于 50MB，以防系统日志撑爆闪存导致配置丢失。
