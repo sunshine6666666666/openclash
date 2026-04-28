@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rebuild 3x-ui VLESS Server"
+  short_description: "Rebuild a 3x-ui VLESS REALITY VPS"
+  default_prompt: "Use $rebuild-3xui-vless-server to deploy 3x-ui with one VLESS REALITY node on this VPS and generate the node info document."
